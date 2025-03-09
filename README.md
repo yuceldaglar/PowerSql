@@ -1,2 +1,2 @@
 # PowerSql
-A powerful tool for workıng with sql queries.
+A powerful tool for working with sql queries.
