@@ -31,19 +31,17 @@
             connectionsListBox = new ListBox();
             splitter1 = new Splitter();
             panel1 = new Panel();
+            label5 = new Label();
             saveConnectionButton = new Button();
             integratedSecurityCheckBox = new CheckBox();
             passwordTextBox = new TextBox();
             label4 = new Label();
             usernameTextBox = new TextBox();
             label3 = new Label();
-            databaseTextBox = new TextBox();
-            label2 = new Label();
             serverTextBox = new TextBox();
             label1 = new Label();
             newConnectionButton = new Button();
             deleteButton = new Button();
-            label5 = new Label();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -75,8 +73,6 @@
             panel1.Controls.Add(label4);
             panel1.Controls.Add(usernameTextBox);
             panel1.Controls.Add(label3);
-            panel1.Controls.Add(databaseTextBox);
-            panel1.Controls.Add(label2);
             panel1.Controls.Add(serverTextBox);
             panel1.Controls.Add(label1);
             panel1.Dock = DockStyle.Fill;
@@ -85,9 +81,18 @@
             panel1.Size = new Size(872, 1064);
             panel1.TabIndex = 2;
             // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(6, 215);
+            label5.Name = "label5";
+            label5.Size = new Size(394, 25);
+            label5.TabIndex = 10;
+            label5.Text = "* Do not use production or sensitive passwords.";
+            // 
             // saveConnectionButton
             // 
-            saveConnectionButton.Location = new Point(6, 374);
+            saveConnectionButton.Location = new Point(6, 312);
             saveConnectionButton.Name = "saveConnectionButton";
             saveConnectionButton.Size = new Size(112, 34);
             saveConnectionButton.TabIndex = 4;
@@ -98,7 +103,7 @@
             // integratedSecurityCheckBox
             // 
             integratedSecurityCheckBox.AutoSize = true;
-            integratedSecurityCheckBox.Location = new Point(6, 317);
+            integratedSecurityCheckBox.Location = new Point(6, 255);
             integratedSecurityCheckBox.Name = "integratedSecurityCheckBox";
             integratedSecurityCheckBox.Size = new Size(187, 29);
             integratedSecurityCheckBox.TabIndex = 9;
@@ -107,7 +112,7 @@
             // 
             // passwordTextBox
             // 
-            passwordTextBox.Location = new Point(6, 243);
+            passwordTextBox.Location = new Point(6, 181);
             passwordTextBox.Name = "passwordTextBox";
             passwordTextBox.Size = new Size(371, 31);
             passwordTextBox.TabIndex = 7;
@@ -115,7 +120,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(6, 215);
+            label4.Location = new Point(6, 153);
             label4.Name = "label4";
             label4.Size = new Size(87, 25);
             label4.TabIndex = 6;
@@ -123,7 +128,7 @@
             // 
             // usernameTextBox
             // 
-            usernameTextBox.Location = new Point(6, 181);
+            usernameTextBox.Location = new Point(6, 119);
             usernameTextBox.Name = "usernameTextBox";
             usernameTextBox.Size = new Size(371, 31);
             usernameTextBox.TabIndex = 5;
@@ -131,27 +136,11 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(6, 153);
+            label3.Location = new Point(6, 91);
             label3.Name = "label3";
             label3.Size = new Size(91, 25);
             label3.TabIndex = 4;
             label3.Text = "Username";
-            // 
-            // databaseTextBox
-            // 
-            databaseTextBox.Location = new Point(6, 119);
-            databaseTextBox.Name = "databaseTextBox";
-            databaseTextBox.Size = new Size(371, 31);
-            databaseTextBox.TabIndex = 3;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(6, 91);
-            label2.Name = "label2";
-            label2.Size = new Size(86, 25);
-            label2.TabIndex = 2;
-            label2.Text = "Database";
             // 
             // serverTextBox
             // 
@@ -191,15 +180,6 @@
             deleteButton.UseVisualStyleBackColor = true;
             deleteButton.Click += DeleteButton_Click;
             // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(6, 277);
-            label5.Name = "label5";
-            label5.Size = new Size(394, 25);
-            label5.TabIndex = 10;
-            label5.Text = "* Do not use production or sensitive passwords.";
-            // 
             // ConnectionsForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -225,8 +205,6 @@
         private Label label4;
         private TextBox usernameTextBox;
         private Label label3;
-        private TextBox databaseTextBox;
-        private Label label2;
         private TextBox serverTextBox;
         private Label label1;
         private CheckBox integratedSecurityCheckBox;

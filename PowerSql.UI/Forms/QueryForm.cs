@@ -1,4 +1,5 @@
-﻿using PowerSql.UI.Domain;
+﻿using Microsoft.IdentityModel.Tokens;
+using PowerSql.UI.Domain;
 using PowerSql.UI.Domain.Models;
 using System.Data;
 
@@ -16,6 +17,7 @@ namespace PowerSql.Forms
             _applicationService = applicationService;
             LoadConnections();
             LoadQuery(queryId);
+            LoadDatabases();
             DisplayQuery(_query);
 
             applicationService.ConnectionsUpdated += ApplicationService_ConnectionsUpdated;
@@ -34,13 +36,22 @@ namespace PowerSql.Forms
         {
             _query.ConnectionId = ((Connection)connectionsCombo.SelectedItem).Id;
             _applicationService.UpdateQuery(_query);
+
+            LoadDatabases();
+            SetDatabase(_query.Database);
+        }
+
+        private void DatabaseCombo_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _query.Database = databaseCombo.SelectedItem.ToString();
+            _applicationService.UpdateQuery(_query);
         }
 
         private void RunButton_Click(object sender, EventArgs e)
         {
             var sql = queryTextBox.Text;
             var connectionId = ((Connection)connectionsCombo.SelectedItem).Id;
-            var result = _applicationService.ExecuteQuery(sql, connectionId);
+            var result = _applicationService.ExecuteQuery(sql, connectionId, _query.Database);
             messagesTextBox.Text = string.Join(Environment.NewLine, result.Item2);
             ShowResult(result.Item1);
         }
@@ -70,13 +81,16 @@ namespace PowerSql.Forms
         private void DisplayQuery(Query query)
         {
             connectionsCombo.SelectedIndexChanged -= ConnectionsCombo_SelectedIndexChanged;
+            databaseCombo.SelectedIndexChanged -= DatabaseCombo_SelectedIndexChanged;
             nameTextBox.TextChanged -= NameTextBox_TextChanged;
             queryTextBox.TextChanged -= QueryTextBox_TextChanged;
 
             nameTextBox.Text = query.Name;
             queryTextBox.Text = query.Sql;
             SetConnection(query.ConnectionId);
+            SetDatabase(query.Database);
 
+            databaseCombo.SelectedIndexChanged += DatabaseCombo_SelectedIndexChanged;
             connectionsCombo.SelectedIndexChanged += ConnectionsCombo_SelectedIndexChanged;
             nameTextBox.TextChanged += NameTextBox_TextChanged;
             queryTextBox.TextChanged += QueryTextBox_TextChanged;
@@ -98,6 +112,17 @@ namespace PowerSql.Forms
             connectionsCombo.Items.Clear();
             connectionsCombo.Items.AddRange(_applicationService.GetConnections());
             connectionsCombo.SelectedIndexChanged += ConnectionsCombo_SelectedIndexChanged;
+        }
+
+        private void LoadDatabases()
+        {
+            databaseCombo.SelectedIndexChanged -= DatabaseCombo_SelectedIndexChanged;
+            databaseCombo.Items.Clear();
+            if (_query.ConnectionId != Guid.Empty)
+            {
+                databaseCombo.Items.AddRange(_applicationService.GetDatabaseNames(_query.ConnectionId));
+            }
+            databaseCombo.SelectedIndexChanged += DatabaseCombo_SelectedIndexChanged;
         }
 
         private void LoadQuery(Guid queryId)
@@ -127,6 +152,21 @@ namespace PowerSql.Forms
                     if (((Connection)item).Id == connectionId)
                     {
                         connectionsCombo.SelectedItem = item;
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void SetDatabase(string database)
+        {
+            if (!database.IsNullOrEmpty())
+            {
+                foreach (var item in databaseCombo.Items)
+                {
+                    if (item.ToString() == database)
+                    {
+                        databaseCombo.SelectedItem = item;
                         break;
                     }
                 }

@@ -23,7 +23,7 @@ namespace PowerSql.Test
         [Test]
         public void Read_ShouldReturnData_WhenFileExists()
         {
-            var expectedData = new ApplicationData { Connections = [new Connection { Id = Guid.NewGuid(), Database = "TestDB" }] };
+            var expectedData = new ApplicationData { Connections = [new Connection { Id = Guid.NewGuid(), Server = "Test" }] };
             var json = JsonConvert.SerializeObject(expectedData);
             _mockFileSystem.Setup(fs => fs.FileExists(DataFilePath)).Returns(true);
             _mockFileSystem.Setup(fs => fs.ReadAllText(DataFilePath)).Returns(json);
@@ -48,7 +48,7 @@ namespace PowerSql.Test
         [Test]
         public void Save_ShouldWriteDataToFile()
         {
-            var data = new ApplicationData { Connections = [new Connection { Id = Guid.NewGuid(), Database = "TestDB" }] };
+            var data = new ApplicationData { Connections = [new Connection { Id = Guid.NewGuid(), Server = "Test" }] };
             var json = JsonConvert.SerializeObject(data);
 
             _database.Save(data);

@@ -4,7 +4,6 @@ namespace PowerSql.UI.Domain.Models
 {
     public class Connection
     {
-        public string Database { get; set; }
         public Guid Id { get; set; }
         public bool IntegratedSecurity { get; set; }
         public string Password { get; set; }
@@ -16,12 +15,12 @@ namespace PowerSql.UI.Domain.Models
             Id = Guid.NewGuid();
         }
 
-        public string GetConnectionString()
+        public string GetConnectionString(string database)
         {
             var builder = new SqlConnectionStringBuilder
             {
                 DataSource = Server,
-                InitialCatalog = Database,
+                InitialCatalog = database,
                 IntegratedSecurity = IntegratedSecurity,
                 UserID = Username,
                 Password = Password,
@@ -33,7 +32,7 @@ namespace PowerSql.UI.Domain.Models
 
         public override string ToString()
         {
-            return Server + " - " + Database;
+            return Server ?? "?";
         }
     }
 }

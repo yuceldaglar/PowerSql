@@ -55,7 +55,7 @@ namespace PowerSql.Forms
         private void SaveConnectionButton_Click(object sender, EventArgs e)
         {
             var connection = (Connection)connectionsListBox.SelectedItem;
-            connection.Database = databaseTextBox.Text;
+            //connection.Database = databaseTextBox.Text;
             connection.IntegratedSecurity = integratedSecurityCheckBox.Checked;
             connection.Password = passwordTextBox.Text;
             connection.Server = serverTextBox.Text;
@@ -75,7 +75,6 @@ namespace PowerSql.Forms
         {
             var connectionExists = connection != null;
 
-            databaseTextBox.Enabled = connectionExists;
             integratedSecurityCheckBox.Enabled = connectionExists;
             passwordTextBox.Enabled = connectionExists;
             serverTextBox.Enabled = connectionExists;
@@ -85,7 +84,6 @@ namespace PowerSql.Forms
 
             if (connection != null)
             {
-                databaseTextBox.Text = connection.Database;
                 integratedSecurityCheckBox.Checked = connection.IntegratedSecurity;
                 passwordTextBox.Text = connection.Password;
                 serverTextBox.Text = connection.Server;
@@ -93,7 +91,6 @@ namespace PowerSql.Forms
             }
             else
             {
-                databaseTextBox.Text = "";
                 integratedSecurityCheckBox.Checked = false;
                 passwordTextBox.Text = "";
                 serverTextBox.Text = "";

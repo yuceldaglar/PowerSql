@@ -24,7 +24,7 @@ namespace PowerSql.Test
         [Test]
         public void Add_ShouldAddConnection()
         {
-            var connection = new Connection { Id = Guid.NewGuid(), Database = "TestDB" };
+            var connection = new Connection { Id = Guid.NewGuid(), Server = "Test" };
 
             _repository.Add(connection);
 
@@ -35,7 +35,7 @@ namespace PowerSql.Test
         [Test]
         public void Get_ShouldReturnConnectionById()
         {
-            var connection = new Connection { Id = Guid.NewGuid(), Database = "TestDB" };
+            var connection = new Connection { Id = Guid.NewGuid(), Server = "Test" };
             _data.Connections.Add(connection);
 
             var result = _repository.Get(connection.Id);
@@ -46,8 +46,8 @@ namespace PowerSql.Test
         [Test]
         public void GetAll_ShouldReturnAllConnections()
         {
-            var connection1 = new Connection { Id = Guid.NewGuid(), Database = "TestDB1", IntegratedSecurity = true, Password = "p1", Server = "s1", Username = "u1" };
-            var connection2 = new Connection { Id = Guid.NewGuid(), Database = "TestDB2", IntegratedSecurity = false, Password = "p2", Server = "s2", Username = "u2" };
+            var connection1 = new Connection { Id = Guid.NewGuid(), IntegratedSecurity = true, Password = "p1", Server = "s1", Username = "u1" };
+            var connection2 = new Connection { Id = Guid.NewGuid(), IntegratedSecurity = false, Password = "p2", Server = "s2", Username = "u2" };
             _data.Connections.AddRange([connection1, connection2]);
 
             var result = _repository.GetAll();
@@ -60,7 +60,7 @@ namespace PowerSql.Test
         [Test]
         public void Delete_ShouldRemoveConnection()
         {
-            var connection = new Connection { Id = Guid.NewGuid(), Database = "TestDB" };
+            var connection = new Connection { Id = Guid.NewGuid(), Server = "Test" };
             _data.Connections.Add(connection);
 
             _repository.Delete(connection);
@@ -72,13 +72,15 @@ namespace PowerSql.Test
         [Test]
         public void Update_ShouldModifyExistingConnection()
         {
-            var connection = new Connection { Id = Guid.NewGuid(), Database = "TestDB", IntegratedSecurity = true, Password = "p1", Server = "s1", Username = "u1" };
+            var connection = new Connection { Id = Guid.NewGuid(), IntegratedSecurity = true, Password = "p1", Server = "s1", Username = "u1" };
             _data.Connections.Add(connection);
-            var updatedConnection = new Connection { Id = connection.Id, Database = "UpdatedDB", IntegratedSecurity = false, Password = "p2", Server = "s2", Username = "u2" };
+            var updatedConnection = new Connection { Id = connection.Id, IntegratedSecurity = false, Password = "p2", Server = "s2", Username = "u2" };
 
             _repository.Update(updatedConnection);
 
-            Assert.That(_data.Connections.First(c => c.Id == connection.Id).Database, Is.EqualTo("UpdatedDB"));
+            Assert.That(_data.Connections.First(c => c.Id == connection.Id).Server, Is.EqualTo("s2"));
+            Assert.That(_data.Connections.First(c => c.Id == connection.Id).Password, Is.EqualTo("p2"));
+            Assert.That(_data.Connections.First(c => c.Id == connection.Id).Username, Is.EqualTo("u2"));
             _mockDatabase.Verify(db => db.Save(_data), Times.Once);
         }
 
@@ -86,7 +88,6 @@ namespace PowerSql.Test
         {
             Assert.Multiple(() =>
             {
-                Assert.That(actual.Database, Is.EqualTo(expected.Database));
                 Assert.That(actual.Id, Is.EqualTo(expected.Id));
                 Assert.That(actual.IntegratedSecurity, Is.EqualTo(expected.IntegratedSecurity));
                 Assert.That(actual.Password, Is.EqualTo(expected.Password));

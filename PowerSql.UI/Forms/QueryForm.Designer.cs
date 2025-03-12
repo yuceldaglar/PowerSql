@@ -32,7 +32,9 @@
             splitContainer = new SplitContainer();
             queryTextBox = new TextBox();
             panel1 = new Panel();
+            databaseCombo = new ComboBox();
             nameTextBox = new TextBox();
+            panel2 = new Panel();
             runButton = new Button();
             connectionsCombo = new ComboBox();
             tabControl1 = new TabControl();
@@ -41,7 +43,6 @@
             tablesComboBox = new ComboBox();
             messagesTabPage = new TabPage();
             messagesTextBox = new TextBox();
-            panel2 = new Panel();
             ((System.ComponentModel.ISupportInitialize)queryDataGridView).BeginInit();
             ((System.ComponentModel.ISupportInitialize)splitContainer).BeginInit();
             splitContainer.Panel1.SuspendLayout();
@@ -101,6 +102,7 @@
             // 
             // panel1
             // 
+            panel1.Controls.Add(databaseCombo);
             panel1.Controls.Add(nameTextBox);
             panel1.Controls.Add(panel2);
             panel1.Controls.Add(runButton);
@@ -111,6 +113,15 @@
             panel1.Size = new Size(1089, 87);
             panel1.TabIndex = 1;
             // 
+            // databaseCombo
+            // 
+            databaseCombo.DropDownStyle = ComboBoxStyle.DropDownList;
+            databaseCombo.FormattingEnabled = true;
+            databaseCombo.Location = new Point(292, 43);
+            databaseCombo.Name = "databaseCombo";
+            databaseCombo.Size = new Size(273, 33);
+            databaseCombo.TabIndex = 4;
+            // 
             // nameTextBox
             // 
             nameTextBox.BackColor = SystemColors.Control;
@@ -118,12 +129,20 @@
             nameTextBox.Location = new Point(13, 12);
             nameTextBox.Margin = new Padding(4, 5, 4, 5);
             nameTextBox.Name = "nameTextBox";
-            nameTextBox.Size = new Size(624, 24);
+            nameTextBox.Size = new Size(644, 24);
             nameTextBox.TabIndex = 2;
+            // 
+            // panel2
+            // 
+            panel2.BackColor = SystemColors.ControlDark;
+            panel2.Location = new Point(13, 28);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(644, 10);
+            panel2.TabIndex = 3;
             // 
             // runButton
             // 
-            runButton.Location = new Point(414, 44);
+            runButton.Location = new Point(571, 42);
             runButton.Name = "runButton";
             runButton.Size = new Size(86, 33);
             runButton.TabIndex = 1;
@@ -137,7 +156,7 @@
             connectionsCombo.FormattingEnabled = true;
             connectionsCombo.Location = new Point(13, 44);
             connectionsCombo.Name = "connectionsCombo";
-            connectionsCombo.Size = new Size(395, 33);
+            connectionsCombo.Size = new Size(273, 33);
             connectionsCombo.TabIndex = 0;
             // 
             // tabControl1
@@ -203,14 +222,6 @@
             messagesTextBox.Size = new Size(1075, 505);
             messagesTextBox.TabIndex = 1;
             // 
-            // panel2
-            // 
-            panel2.BackColor = SystemColors.ControlDark;
-            panel2.Location = new Point(13, 28);
-            panel2.Name = "panel2";
-            panel2.Size = new Size(624, 10);
-            panel2.TabIndex = 3;
-            // 
             // QueryForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
@@ -250,5 +261,6 @@
         private Panel resultPanel;
         private ComboBox tablesComboBox;
         private Panel panel2;
+        private ComboBox databaseCombo;
     }
 }

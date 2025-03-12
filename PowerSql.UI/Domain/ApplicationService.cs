@@ -41,15 +41,15 @@ namespace PowerSql.UI.Domain
             ConnectionsUpdated?.Invoke(this, EventArgs.Empty);
         }
 
-        public (DataSet, List<string>) ExecuteQuery(string sql, Guid connectionId)
+        public (DataSet, List<string>) ExecuteQuery(string sql, Guid connectionId, string database)
         {
             ArgumentException.ThrowIfNullOrWhiteSpace(sql);
-            Equals(connectionId, Guid.Empty);
+            //Equals(connectionId, Guid.Empty);
 
             var connection = _connectionRepository.Get(connectionId);
             var messages = new List<string>();
 
-            using var sqlConnection = new SqlConnection(connection.GetConnectionString());
+            using var sqlConnection = new SqlConnection(connection.GetConnectionString(database));
             using var sqlCommand = new SqlCommand(sql, sqlConnection);
             using var adapter = new SqlDataAdapter(sqlCommand);
 
@@ -70,14 +70,29 @@ namespace PowerSql.UI.Domain
             }
         }
 
-        private void SqlConnection_InfoMessage(object sender, SqlInfoMessageEventArgs e)
-        {
-            System.Diagnostics.Debug.WriteLine(">>> " + e.Message);
-        }
-
         public Connection GetConnection(Guid connectionId)
         {
             return _connectionRepository.Get(connectionId);
+        }
+
+        public string[] GetDatabaseNames(Guid connectionId)
+        {
+            var databaseNames = new List<string>();
+            var connection = _connectionRepository.Get(connectionId);
+
+            using var sqlConnection = new SqlConnection(connection.GetConnectionString(""));
+
+            var sqlCommand = new SqlCommand("SELECT name FROM sys.databases", sqlConnection);
+            sqlConnection.Open();
+
+            using var reader = sqlCommand.ExecuteReader();
+
+            while (reader.Read())
+            {
+                databaseNames.Add(reader.GetString(0));
+            }
+
+            return [..databaseNames];
         }
 
         public Connection[] GetConnections()
